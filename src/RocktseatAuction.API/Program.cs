@@ -1,6 +1,11 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using RocktseatAuction.API.Contracts;
 using RocktseatAuction.API.Filters;
+using RocktseatAuction.API.Repositories;
+using RocktseatAuction.API.Repositories.DataAccess;
 using RocktseatAuction.API.Services;
+using RocktseatAuction.API.UseCases.Auctions.GetCurrent;
 using RocktseatAuction.API.UseCases.Offers.CreateOffer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,9 +47,20 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddDbContext<RocketseatAuctionDbContext>(
+    options =>
+    {
+        options.UseSqlite(@"Data Source=C:\Users\henri\Desktop\RocketseatAuction\leilaoDbNLW.db");
+    }
+);
+
 builder.Services.AddScoped<AuthenticationUserAttribute>();
 builder.Services.AddScoped<LoggedUser>();
 builder.Services.AddScoped<CreateOfferUseCase>();
+builder.Services.AddScoped<GetCurrentAuctionUseCase>();
+builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
+builder.Services.AddScoped<IOfferRepository, OfferRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddHttpContextAccessor();
 
