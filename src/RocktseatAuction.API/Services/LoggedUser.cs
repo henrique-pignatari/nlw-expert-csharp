@@ -4,7 +4,7 @@ using RocktseatAuction.API.Repositories;
 
 namespace RocktseatAuction.API.Services;
 
-public class LoggedUser
+public class LoggedUser : ILoggeduser
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IUserRepository _userRepository;
